@@ -10,6 +10,7 @@ interface OpenAIApi {
     @POST("v1/chat/completions")
     suspend fun chatCompletions(
         @Header("Authorization") auth: String,
+        @Header("OpenAI-Project") projectId: String,
         @Body body: ChatRequest
     ): ChatResponse
 }

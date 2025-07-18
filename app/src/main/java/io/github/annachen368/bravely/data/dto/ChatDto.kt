@@ -1,7 +1,7 @@
 package io.github.annachen368.bravely.data.dto
 
 data class ChatRequest(
-    val model: String = "gpt-3.5-turbo",
+    val model: String = "gpt-4o-mini",
     val messages: List<Message>
 )
 

@@ -1,5 +1,6 @@
 package io.github.annachen368.bravely.presentation.chat
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,6 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.annachen368.bravely.domain.model.ChatMessage
 import io.github.annachen368.bravely.domain.usecase.GetChatResponseUseCase
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,9 +28,25 @@ class ChatViewModel @Inject constructor(
         viewModelScope.launch {
             val newMessage = ChatMessage("user", input)
             val updatedMessages = messages + newMessage
-            val reply = getChatResponseUseCase(updatedMessages)
-            messages = updatedMessages + ChatMessage("assistant", reply)
-            response = reply
+            try {
+                val reply = getChatResponseUseCase(updatedMessages)
+                messages = updatedMessages + ChatMessage("assistant", reply)
+                response = reply
+            } catch (e: HttpException) {
+                if (e.code() == 429) {
+                    messages = updatedMessages + ChatMessage(
+                        "assistant",
+                        "You're sending messages too fast. Please wait and try again."
+                    )
+                } else {
+                    messages = updatedMessages + ChatMessage(
+                        "assistant",
+                        "Oops! Something went wrong."
+                    )
+                }
+            } catch (e: Exception) {
+                Log.d("OpenAI", "Crashes: ${e.message}")
+            }
         }
     }
 }
