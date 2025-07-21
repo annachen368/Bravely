@@ -25,8 +25,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.annachen368.bravely.domain.model.ChatMessage
+import io.github.annachen368.bravely.presentation.theme.BravelyTheme
 
 @Composable
 fun ChatScreen(viewModel: ChatViewModel) {
@@ -101,5 +103,21 @@ fun MessageBubble(message: ChatMessage) {
                     .widthIn(max = 280.dp)
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun MessageBubbleUserPreview() {
+    BravelyTheme {
+        MessageBubble(ChatMessage("user", "Hello"))
+    }
+}
+
+@Preview
+@Composable
+private fun MessageBubbleAssistantPreview() {
+    BravelyTheme {
+        MessageBubble(ChatMessage("assistant", "Hello"))
     }
 }
