@@ -21,7 +21,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +30,7 @@ import io.github.annachen368.bravely.domain.model.ChatMessage
 
 @Composable
 fun ChatScreen(viewModel: ChatViewModel) {
-    var userInput by remember { mutableStateOf("") }
+    var userInput by rememberSaveable { mutableStateOf("") }
 
     Column(modifier = Modifier
         .fillMaxSize()
